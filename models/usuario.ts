@@ -1,8 +1,8 @@
 import mongoose from "mongoose";
-import { nanoid } from "nanoid";    //Gerar GUIDs
+import { v4 as uuidv4 } from 'uuid';
 
 const EnderecoSchema = new mongoose.Schema({
-    _id: {type: String, default: () => nanoid()},
+    _id: {type: String, default: uuidv4},
     cep: {type: String, required: true},
     logradouro: {type: String, required: true},
     bairro: {type: String, required: true},
@@ -11,10 +11,10 @@ const EnderecoSchema = new mongoose.Schema({
 })
 
 const UsuarioSchema = new mongoose.Schema({
-    _id: {type: String, default: () => nanoid()},
+    _id: {type: String, default: uuidv4},
     nome: {type: String, required: true, unique: true},
     email: { type: String, required: true },
-    endereco: [EnderecoSchema]
+    endereco: { type: EnderecoSchema, required: true }
 });
 
 export const Usuario = mongoose.model('Usuario', UsuarioSchema);

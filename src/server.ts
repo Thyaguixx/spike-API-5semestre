@@ -39,9 +39,7 @@ app.use(express.json())
 
 
 app.post('/cadastro', async (req, res) => {
-    const { dadosUsuario } = req.body
-
-    const retorno = await SETUsuario(dadosUsuario)
+    const retorno = await SETUsuario(req.body)
 
     if (retorno.Sucesso) {
         res.send({ msg: "Usuário cadastrado com sucesso.", Sucesso: retorno.Sucesso, retornoUsuario: retorno.Retorno })
@@ -54,9 +52,9 @@ app.get('/listarUsuarios', async (req, res) => {
     const result = await GETUsuarios()
 
     if (result) {
-        res.send({Sucesso: true, Retorno: result.retornoUsuarios})
+        res.send({ Sucesso: true, Retorno: result.retornoUsuarios })
     } else {
-        res.send({msg: "Erro ao buscar usuários.", Erro: result})
+        res.send({ msg: "Erro ao buscar usuários.", Erro: result })
     }
 })
 
@@ -66,9 +64,9 @@ app.get('/getUsuarioByID/:id', async (req, res) => {
     const result = await GETUsuarioByID(id)
 
     if (result) {
-        res.send({Sucesso: true, Usuario: result.retorno})
+        res.send({ Sucesso: true, Usuario: result.retorno })
     } else {
-        res.send({msg: "Erro ao buscar usuário.", Erro: result})
+        res.send({ msg: "Erro ao buscar usuário.", Erro: result })
     }
 })
 
