@@ -6,6 +6,7 @@ import { SETUsuario } from "../controllers/SETUsuario";
 import { GETUsuarios } from "../controllers/GETUsuarios";
 import { GETUsuarioByID } from "../controllers/GETUsuarioByID";
 import { DELUsuario } from "../controllers/DELUsuario";
+import { PUTUsuarioEmail } from "../controllers/PUTUsuarioEmail";
 
 //Conexão com banco do MongoDB Atlas (servidor)
 mongoose.connect("mongodb+srv://thyaguixx:apithy2024@api-4desk.9q9ww5g.mongodb.net/SpikeAPI")
@@ -44,7 +45,21 @@ app.get('/listarUsuarios', async (req, res) => {
     const result = await GETUsuarios()
 
     if (result) {
-        res.send({ Sucesso: true, Retorno: result.retornoUsuarios })
+        const usuarioLista = result.retornoUsuarios
+        
+        // Método com For padrãozão
+        if (usuarioLista){
+            for (const usuario of usuarioLista) {
+                console.log(usuario.nome)
+            }
+        }
+        
+        // Método com for each
+        usuarioLista?.forEach(usuario => {
+            console.log(usuario.endereco)
+        })
+        
+        res.send({ Sucesso: true, Retorno: usuarioLista })
     } else {
         res.send({ msg: "Erro ao buscar usuários.", Erro: result })
     }
@@ -57,14 +72,34 @@ app.get('/getUsuarioByID/:id', async (req, res) => {
    
     if (result && result.Sucesso) {
         const usuario = result.retorno
-        console.log(usuario)
-        console.log(usuario?._id)
-        console.log(usuario?.email)
-        console.log(usuario?.nome)
-        console.log(usuario?.endereco)
-        res.send({ Sucesso: true, Usuario: result.retorno})
+        res.send({ Sucesso: true, Usuario: usuario})
     } else {
         res.send({ msg: "Erro ao buscar usuário.", Erro: result })
+    }
+})
+
+app.put('/alterarEmail', async (req, res) => {
+    const { id , email } = req.body
+
+    const result = await PUTUsuarioEmail(id, email)
+    
+    if (result?.Sucesso) {
+        res.send({msg: "E-mail do usuário modificado com sucesso.", Sucesso: result.Sucesso, Retorno: result.Retorno})
+    } else {
+        res.send({msg: "Falha ao tentar modificar o e-mail do usuário.", Sucesso: result?.Sucesso, Erro: result?.Erro})
+    }
+    
+})
+
+app.delete("/deletarUsuario/:id", async (req, res) => {
+    const { id } = req.params
+
+    const result = await DELUsuario(id)
+
+    if (result?.Sucesso) {
+        res.send({msg: "Usuário deletado com sucesso.", Sucesso: result?.Sucesso, Retorno: result?.retorno})
+    } else {
+        res.send({msg: "Falha ao deletar usuário.", Sucesso: result?.Sucesso, Retorno: result?.retorno})
     }
 })
 
