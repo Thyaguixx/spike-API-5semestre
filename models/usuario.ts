@@ -1,6 +1,20 @@
 import mongoose from "mongoose";
 import { v4 as uuidv4 } from 'uuid';
 
+export interface UsuarioInterface {
+    _id: string;
+    nome: string;
+    email: string;
+    endereco: {
+        cep: string;
+        logradouro: string;
+        bairro: string;
+        cidade: string;
+        uf: string;
+        _id: string
+    };
+}
+
 const EnderecoSchema = new mongoose.Schema({
     _id: {type: String, default: uuidv4},
     cep: {type: String, required: true},
