@@ -16,7 +16,7 @@ export interface UsuarioInterface {
 }
 
 const EnderecoSchema = new mongoose.Schema({
-    _id: {type: String, default: uuidv4},
+    _id: {type: String, default: uuidv4},   //Podemons usar ou o uuid, ou o prórpio ID que o mongoDB gera
     cep: {type: String, required: true},
     logradouro: {type: String, required: true},
     bairro: {type: String, required: true},

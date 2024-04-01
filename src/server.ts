@@ -2,29 +2,26 @@ import mongoose from "mongoose";
 import express from 'express'
 import cors from 'cors'
 import { Usuario, UsuarioInterface } from "../models/usuario";
-import { SETUsuario } from "../controllers/SETUsuario";
-import { GETUsuarios } from "../controllers/GETUsuarios";
-import { GETUsuarioByID } from "../controllers/GETUsuarioByID";
-import { DELUsuario } from "../controllers/DELUsuario";
-import { PUTUsuarioEmail } from "../controllers/PUTUsuarioEmail";
+import { SETUsuario, PUTUsuarioEmail, GETUsuarioByID, GETUsuarios, DELUsuario } from "../controllers/services";
+
 
 //Conexão com banco do MongoDB Atlas (servidor)
-mongoose.connect("mongodb+srv://thyaguixx:apithy2024@api-4desk.9q9ww5g.mongodb.net/SpikeAPI")
-    .then(() => {
-        console.log('Conectado ao MongoDB');
-    })
-    .catch(err => {
-        console.error('Erro de conexão com o MongoDB:', err);
-    });
-
-//Conexão com o localhost do mongo compass lá da maquina da fatec
-// mongoose.connect('mongodb://localhost:27017/SpikeAPI')
+// mongoose.connect("mongodb+srv://thyaguixx:apithy2024@api-4desk.9q9ww5g.mongodb.net/SpikeAPI")
 //     .then(() => {
 //         console.log('Conectado ao MongoDB');
 //     })
 //     .catch(err => {
 //         console.error('Erro de conexão com o MongoDB:', err);
 //     });
+
+//Conexão com o localhost do mongo compass lá da maquina da fatec
+mongoose.connect('mongodb://localhost:27017/SpikeAPI')
+    .then(() => {
+        console.log('Conectado ao MongoDB');
+    })
+    .catch(err => {
+        console.error('Erro de conexão com o MongoDB:', err);
+    });
 
 const app = express()
 app.use(cors())
